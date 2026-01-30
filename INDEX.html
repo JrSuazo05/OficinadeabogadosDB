@@ -1,0 +1,3541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Legal - Dalcia Bello & Asociados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a237e; /* Azul oscuro elegante */
+            --secondary: #283593; /* Azul medio */
+            --accent: #5c6bc0; /* Azul lavanda */
+            --gold: #d4af37; /* Oro elegante */
+            --light: #f5f5f7;
+            --dark: #121212;
+            --gray: #757575;
+            --success: #2e7d32;
+            --warning: #f57c00;
+            --danger: #c62828;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header y navegación */
+        header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid var(--gold);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            background-color: var(--gold);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--primary);
+            box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+        }
+        
+        .logo-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-text .tagline {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .user-role {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 0.1rem 0.5rem;
+            border-radius: 10px;
+            display: inline-block;
+            width: fit-content;
+        }
+        
+        .logout-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Contenido principal */
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 140px);
+        }
+        
+        .page-title {
+            margin-bottom: 2.5rem;
+            color: var(--primary);
+            font-family: 'Playfair Display', serif;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title h2 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-title h2 i {
+            color: var(--gold);
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Formularios */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.2);
+        }
+        
+        .btn {
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(26, 35, 126, 0.2);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #1b5e20 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(46, 125, 50, 0.2);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning) 0%, #e65100 100%);
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(245, 124, 0, 0.2);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #b71c1c 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(198, 40, 40, 0.2);
+        }
+        
+        .btn-export {
+            background: linear-gradient(135deg, var(--gold) 0%, #b8941f 100%);
+            color: white;
+        }
+        
+        .btn-export:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Tablas */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            font-weight: 600;
+            padding: 1.2rem;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        
+        td {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr:hover {
+            background-color: #f8f9ff;
+        }
+        
+        /* Calendario */
+        .calendar-container {
+            margin-top: 1.5rem;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background-color: #e0e0e0;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .calendar-day-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .calendar-day {
+            background-color: white;
+            padding: 1rem;
+            min-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .calendar-day:hover {
+            background-color: #f8f9ff;
+        }
+        
+        .calendar-day.today {
+            background-color: #e8f4fc;
+            border: 2px solid var(--accent);
+        }
+        
+        .calendar-day.other-month {
+            background-color: #f9f9f9;
+            color: #aaa;
+        }
+        
+        .calendar-day-number {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .calendar-event {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-event:hover {
+            transform: translateX(3px);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Página de inicio */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(26, 35, 126, 0.2);
+        }
+        
+        .welcome-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .welcome-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            line-height: 1.8;
+            opacity: 0.95;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border-top: 4px solid var(--gold);
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .dashboard-card i {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .dashboard-card h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .dashboard-card .count {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-card .subtext {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 3rem;
+            border-radius: 15px;
+            width: 85%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid var(--gold);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .modal-header h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .close-modal {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: color 0.3s ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--danger);
+        }
+        
+        /* Login */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background-color: white;
+            border-radius: 20px;
+            padding: 3.5rem;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            border-top: 5px solid var(--gold);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .login-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .login-logo-icon {
+            background-color: var(--gold);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .login-logo h2 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-logo p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        .login-footer {
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .user-options {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .user-option-btn {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            background: #f9f9f9;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .user-option-btn:hover {
+            background-color: white;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .user-option-btn strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+        
+        .user-option-btn small {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-grid {
+                font-size: 0.9rem;
+            }
+            
+            .calendar-day {
+                min-height: 100px;
+                padding: 0.8rem;
+            }
+            
+            .user-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 2rem;
+                width: 95%;
+            }
+            
+            .page-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons button {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            border-radius: 6px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray);
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+        }
+        
+        .empty-state h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .date-range-selector {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .date-range-selector .form-group {
+            margin-bottom: 0;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .audience-status {
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background-color: #fff3e0;
+            color: #e65100;
+            border: 1px solid #ffcc80;
+        }
+        
+        .status-completed {
+            background-color: #e8f5e9;
+            color: #1b5e20;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .status-cancelled {
+            background-color: #ffebee;
+            color: #b71c1c;
+            border: 1px solid #ef9a9a;
+        }
+        
+        .status-rescheduled {
+            background-color: #e3f2fd;
+            color: #0d47a1;
+            border: 1px solid #90caf9;
+        }
+        
+        .view-toggle {
+            display: flex;
+            margin-bottom: 2rem;
+            background: white;
+            border-radius: 10px;
+            padding: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            width: fit-content;
+        }
+        
+        .view-toggle button {
+            padding: 0.8rem 1.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--gray);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-toggle button.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .role-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .role-socia {
+            background-color: var(--gold);
+            color: var(--primary);
+        }
+        
+        .role-abogado {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
+            color: white;
+        }
+        
+        .role-asistente {
+            background-color: #5c6bc0;
+            color: white;
+        }
+        
+        .role-pasante {
+            background-color: #42a5f5;
+            color: white;
+        }
+        
+        .case-type-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .case-civil {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #90caf9;
+        }
+        
+        .case-penal {
+            background-color: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+        
+        .case-familiar {
+            background-color: #f3e5f5;
+            color: #7b1fa2;
+            border: 1px solid #ce93d8;
+        }
+        
+        .case-laboral {
+            background-color: #fff8e1;
+            color: #ff8f00;
+            border: 1px solid #ffe082;
+        }
+        
+        .case-mercantil {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+        
+        .priority-high {
+            color: #c62828;
+            font-weight: 700;
+        }
+        
+        .priority-medium {
+            color: #f57c00;
+            font-weight: 600;
+        }
+        
+        .priority-low {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+        
+        /* Notificaciones */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Firmas */
+        .firma {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Página de login -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <div class="login-logo-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h2>Dalcia Bello & Asociados</h2>
+                    <p>Sistema de Gestión Legal Integral</p>
+                </div>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username"><i class="fas fa-user"></i> Usuario</label>
+                    <input type="text" id="username" placeholder="Ingrese su usuario" required>
+                </div>
+                <div class="form-group">
+                    <label for="password"><i class="fas fa-lock"></i> Contraseña</label>
+                    <input type="password" id="password" placeholder="Ingrese su contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Acceso rápido para miembros del bufete:</p>
+                <div class="user-options">
+                    <div class="user-option-btn" data-user="dalcia" data-pass="dbello2024">
+                        <strong>Socia Fundadora</strong>
+                        <small>Licda. Dalcia Bello</small>
+                    </div>
+                    <div class="user-option-btn" data-user="abogado1" data-pass="abogado123">
+                        <strong>Abogado Senior</strong>
+                        <small>Abogado1</small>
+                    </div>
+                    <div class="user-option-btn" data-user="asistente1" data-pass="asistente123">
+                        <strong>Asistente Legal</strong>
+                        <small>Secretaria</small>
+                    </div>
+                    <div class="user-option-btn" data-user="pasante1" data-pass="pasante123">
+                        <strong>Asistente</strong>
+                        <small>Asistente</small>
+                    </div>
+                </div>
+                <p class="firma" style="margin-top: 2rem; text-align: center;">
+                    "Justicia con Excelencia y Compromiso"
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Aplicación principal -->
+    <div id="app" style="display: none;">
+        <header>
+            <div class="container header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Dalcia Bello & Asociados</h1>
+                        <div class="tagline">SISTEMA DE GESTIÓN LEGAL</div>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" id="navHome" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                        <li><a href="#" id="navExpedientes"><i class="fas fa-folder-open"></i> Expedientes</a></li>
+                        <li><a href="#" id="navAudiencias"><i class="fas fa-gavel"></i> Audiencias</a></li>
+                        <li><a href="#" id="navAgenda"><i class="fas fa-calendar-days"></i> Agenda</a></li>
+                        <li><a href="#" id="navCalendario"><i class="fas fa-calendar-alt"></i> Calendario</a></li>
+                        <li><a href="#" id="navClientes"><i class="fas fa-users"></i> Clientes</a></li>
+                    </ul>
+                </nav>
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">
+                        DB
+                    </div>
+                    <div class="user-details">
+                        <div class="user-name" id="currentUser">Dra. Dalcia Bello</div>
+                        <div class="user-role" id="userRole">Socia Fundadora</div>
+                    </div>
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <main class="container">
+            <!-- Página de inicio -->
+            <div id="homePage" class="page-content">
+                <div class="welcome-section">
+                    <div class="welcome-content">
+                        <h3><i class="fas fa-star"></i> Bienvenida al Sistema</h3>
+                        <p>Dra. Dalcia Bello, este es su sistema de gestión legal integral. Aquí puede administrar expedientes, programar audiencias, revisar su agenda y generar reportes. Mantenga su práctica legal organizada y eficiente.</p>
+                    </div>
+                </div>
+                
+                <div class="page-title">
+                    <h2><i class="fas fa-chart-line"></i> Panel de Control</h2>
+                    <span id="currentDate" style="font-weight: 600; color: var(--secondary);"></span>
+                </div>
+                
+                <div class="dashboard-cards">
+                    <div class="dashboard-card">
+                        <i class="fas fa-folder-open"></i>
+                        <h3>Expedientes Activos</h3>
+                        <p class="count" id="expedientesCount">0</p>
+                        <p class="subtext">Caso más urgente: <span id="casoUrgente">N/A</span></p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-gavel"></i>
+                        <h3>Audiencias Esta Semana</h3>
+                        <p class="count" id="audienciasCount">0</p>
+                        <p class="subtext">Próxima: <span id="proximaAudiencia">N/A</span></p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-user-tie"></i>
+                        <h3>Clientes Activos</h3>
+                        <p class="count" id="clientesCount">0</p>
+                        <p class="subtext">Nuevos este mes: <span id="nuevosClientes">0</span></p>
+                    </div>
+                    <div class="dashboard-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>Tareas Pendientes</h3>
+                        <p class="count" id="pendientesCount">0</p>
+                        <p class="subtext">Vencen hoy: <span id="vencenHoy">0</span></p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">
+                        <i class="fas fa-bell"></i> Recordatorios y Actividad Reciente
+                    </h3>
+                    <div class="table-container">
+                        <table id="recentActivityTable">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Tipo</th>
+                                    <th>Descripción</th>
+                                    <th>Expediente</th>
+                                    <th>Responsable</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos cargados por JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Página de expedientes -->
+            <div id="expedientesPage" class="page-content" style="display: none;">
+                <div class="page-title">
+                    <h2><i class="fas fa-folder-open"></i> Expedientes Legales</h2>
+                    <div>
+                        <button class="btn btn-export" style="margin-right: 10px;">
+                            <i class="fas fa-print"></i> Informe
+                        </button>
+                        <button class="btn btn-primary" id="addExpedienteBtn">
+                            <i class="fas fa-plus-circle"></i> Nuevo Expediente
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="view-toggle">
+                    <button class="active" id="viewAllBtn">Todos</button>
+                    <button id="viewActiveBtn">Activos</button>
+                    <button id="viewUrgentBtn">Urgentes</button>
+                    <button id="viewMyBtn">Mis Casos</button>
+                </div>
+                
+                <div class="card">
+                    <div class="table-container">
+                        <table id="expedientesTable">
+                            <thead>
+                                <tr>
+                                    <th>N° Expediente</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Prioridad</th>
+                                    <th>Responsable</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos cargados por JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Página de audiencias -->
+            <div id="audienciasPage" class="page-content" style="display: none;">
+                <div class="page-title">
+                    <h2><i class="fas fa-gavel"></i> Gestión de Audiencias</h2>
+                    <button class="btn btn-primary" id="addAudienciaBtn">
+                        <i class="fas fa-plus-circle"></i> Nueva Audiencia
+                    </button>
+                </div>
+                
+                <div class="view-toggle">
+                    <button class="active" id="viewListBtn">Lista</button>
+                    <button id="viewWeekBtn">Esta Semana</button>
+                    <button id="viewMonthBtn">Este Mes</button>
+                    <button id="viewCalendarBtn">Calendario</button>
+                </div>
+                
+                <div id="audienciasList">
+                    <div class="card">
+                        <div class="table-container">
+                            <table id="audienciasTable">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha y Hora</th>
+                                        <th>Expediente</th>
+                                        <th>Tipo</th>
+                                        <th>Juzgado/Sala</th>
+                                        <th>Estado</th>
+                                        <th>Responsable</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Datos cargados por JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="audienciasCalendar" style="display: none;">
+                    <div class="calendar-container">
+                        <!-- Calendario se cargará aquí -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Página de agenda -->
+            <div id="agendaPage" class="page-content" style="display: none;">
+                <div class="page-title">
+                    <h2><i class="fas fa-calendar-days"></i> Agenda y Reportes</h2>
+                    <div>
+                        <button class="btn btn-export" id="exportWordBtn" style="margin-right: 10px;">
+                            <i class="fas fa-file-word"></i> Word
+                        </button>
+                        <button class="btn btn-export" id="exportPdfBtn">
+                            <i class="fas fa-file-pdf"></i> Exportar PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">
+                        <i class="fas fa-filter"></i> Filtrar por Rango de Fechas
+                    </h3>
+                    <div class="date-range-selector">
+                        <div class="form-group">
+                            <label for="fechaInicio">Fecha de Inicio</label>
+                            <input type="date" id="fechaInicio">
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaFin">Fecha de Fin</label>
+                            <input type="date" id="fechaFin">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoReporte">Tipo de Reporte</label>
+                            <select id="tipoReporte">
+                                <option value="audiencias">Audiencias</option>
+                                <option value="vencimientos">Vencimientos</option>
+                                <option value="tareas">Tareas</option>
+                                <option value="todo">Todo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" id="filterAgendaBtn">
+                                <i class="fas fa-filter"></i> Filtrar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="agendaTable">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Actividad</th>
+                                    <th>Expediente</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos cargados por JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Página de calendario -->
+            <div id="calendarioPage" class="page-content" style="display: none;">
+                <div class="page-title">
+                    <h2><i class="fas fa-calendar-alt"></i> Calendario Judicial</h2>
+                    <div>
+                        <button class="btn btn-primary" id="prevMonthBtn">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-primary" id="todayBtn">
+                            Hoy
+                        </button>
+                        <button class="btn btn-primary" id="nextMonthBtn">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <span id="currentMonthYear" style="margin: 0 1.5rem; font-weight: 700; color: var(--primary);"></span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="calendar-container" id="mainCalendar">
+                        <!-- Calendario se cargará aquí -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Página de clientes -->
+            <div id="clientesPage" class="page-content" style="display: none;">
+                <div class="page-title">
+                    <h2><i class="fas fa-users"></i> Gestión de Clientes</h2>
+                    <button class="btn btn-primary" id="addClienteBtn">
+                        <i class="fas fa-user-plus"></i> Nuevo Cliente
+                    </button>
+                </div>
+                
+                <div class="card">
+                    <div class="table-container">
+                        <table id="clientesTable">
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>Contacto</th>
+                                    <th>Expedientes</th>
+                                    <th>Última Actividad</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Datos cargados por JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modal para expediente -->
+    <div id="expedienteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-folder-plus"></i> <span id="modalExpedienteTitle">Nuevo Expediente</span></h3>
+                <span class="close-modal" id="closeExpedienteModal">&times;</span>
+            </div>
+            <form id="expedienteForm">
+                <input type="hidden" id="expedienteId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="expedienteNumero">Número de Expediente*</label>
+                        <input type="text" id="expedienteNumero" required placeholder="EJ: 2024-001-CIV">
+                    </div>
+                    <div class="form-group">
+                        <label for="expedienteCliente">Cliente*</label>
+                        <input type="text" id="expedienteCliente" required placeholder="Nombre completo del cliente">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="expedienteTipo">Área Legal*</label>
+                        <select id="expedienteTipo" required>
+                            <option value="">Seleccione área</option>
+                            <option value="Civil">Derecho Civil</option>
+                            <option value="Penal">Derecho Penal</option>
+                            <option value="Familiar">Derecho Familiar</option>
+                            <option value="Laboral">Derecho Laboral</option>
+                            <option value="Mercantil">Derecho Mercantil</option>
+                            <option value="Administrativo">Derecho Administrativo</option>
+                            <option value="Inmobiliario">Derecho Inmobiliario</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expedienteFecha">Fecha de Inicio*</label>
+                        <input type="date" id="expedienteFecha" required>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="expedienteEstado">Estado del Caso*</label>
+                        <select id="expedienteEstado" required>
+                            <option value="Activo">Activo</option>
+                            <option value="En investigación">En investigación</option>
+                            <option value="En juicio">En juicio</option>
+                            <option value="En apelación">En apelación</option>
+                            <option value="Concluido">Concluido</option>
+                            <option value="Archivado">Archivado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expedientePrioridad">Prioridad*</label>
+                        <select id="expedientePrioridad" required>
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="expedienteResponsable">Abogado Responsable*</label>
+                        <select id="expedienteResponsable" required>
+                            <option value="">Seleccione abogado</option>
+                            <option value="Dra. Dalcia Bello">Dra. Dalcia Bello</option>
+                            <option value="Abogado1">Abogado1</option>
+                            <option value="Abogado2">Abogado2</option>
+                            <option value="Abogado3">Abogado3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="expedienteJuzgado">Juzgado/Tribunal</label>
+                        <input type="text" id="expedienteJuzgado" placeholder="EJ: Juzgado Primero Civil">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expedienteDescripcion">Descripción del Caso</label>
+                    <textarea id="expedienteDescripcion" rows="4" placeholder="Resumen del caso, hechos relevantes, objetivos..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="expedienteObservaciones">Observaciones Internas</label>
+                    <textarea id="expedienteObservaciones" rows="3" placeholder="Notas internas, estrategias, consideraciones..."></textarea>
+                </div>
+                
+                <div style="text-align: right; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                    <button type="button" class="btn btn-danger" id="cancelExpedienteBtn">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar Expediente
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal para audiencia -->
+    <div id="audienciaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-gavel"></i> <span id="modalAudienciaTitle">Nueva Audiencia</span></h3>
+                <span class="close-modal" id="closeAudienciaModal">&times;</span>
+            </div>
+            <form id="audienciaForm">
+                <input type="hidden" id="audienciaId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="audienciaExpediente">Expediente*</label>
+                        <select id="audienciaExpediente" required>
+                            <option value="">Seleccione expediente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="audienciaTipo">Tipo de Audiencia*</label>
+                        <select id="audienciaTipo" required>
+                            <option value="">Seleccione tipo</option>
+                            <option value="Preliminar">Audiencia Preliminar</option>
+                            <option value="Vista">Vista Principal</option>
+                            <option value="Sentencia">Lectura de Sentencia</option>
+                            <option value="Conciliación">Audiencia de Conciliación</option>
+                            <option value="Mediación">Mediación</option>
+                            <option value="Reenvío">Reenvío</option>
+                            <option value="Alegatos">Alegatos</option>
+                            <option value="Pruebas">Presentación de Pruebas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="audienciaFecha">Fecha*</label>
+                        <input type="date" id="audienciaFecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="audienciaHora">Hora*</label>
+                        <input type="time" id="audienciaHora" required>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="audienciaJuzgado">Juzgado/Sala*</label>
+                        <input type="text" id="audienciaJuzgado" required placeholder="EJ: Juzgado Primero Civil">
+                    </div>
+                    <div class="form-group">
+                        <label for="audienciaSala">Número de Sala</label>
+                        <input type="text" id="audienciaSala" placeholder="Sala 3, Piso 2">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="audienciaEstado">Estado*</label>
+                        <select id="audienciaEstado" required>
+                            <option value="Pendiente">Pendiente</option>
+                            <option value="Confirmada">Confirmada</option>
+                            <option value="En curso">En curso</option>
+                            <option value="Realizada">Realizada</option>
+                            <option value="Cancelada">Cancelada</option>
+                            <option value="Reagendada">Reagendada</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="audienciaResponsable">Responsable*</label>
+                        <select id="audienciaResponsable" required>
+                            <option value="">Seleccione responsable</option>
+                            <option value="Lic. Dalcia Bello">Lic. Dalcia Bello</option>
+                            <option value="Abogado1">Abogado 1</option>
+                            <option value="Abogado2">Abogado 2</option>
+                            <option value="Abogado3">Abogado 3</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="audienciaAsistentes">Asistentes (separados por comas)</label>
+                    <input type="text" id="audienciaAsistentes" placeholder="Cliente, testigos, peritos...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="audienciaPreparacion">Preparación Requerida</label>
+                    <textarea id="audienciaPreparacion" rows="3" placeholder="Documentos a llevar, argumentos a preparar..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="audienciaObservaciones">Observaciones y Resultados</label>
+                    <textarea id="audienciaObservaciones" rows="4" placeholder="Notas sobre la audiencia, acuerdos, reenvíos, próximos pasos..."></textarea>
+                </div>
+                
+                <div style="text-align: right; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                    <button type="button" class="btn btn-danger" id="cancelAudienciaBtn">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar Audiencia
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Modal para cliente -->
+    <div id="clienteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-plus"></i> <span id="modalClienteTitle">Nuevo Cliente</span></h3>
+                <span class="close-modal" id="closeClienteModal">&times;</span>
+            </div>
+            <form id="clienteForm">
+                <input type="hidden" id="clienteId">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="clienteNombre">Nombre Completo*</label>
+                        <input type="text" id="clienteNombre" required placeholder="Nombre y apellidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteIdentificacion">Identificación*</label>
+                        <input type="text" id="clienteIdentificacion" required placeholder="Cédula, DNI o RUC">
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label for="clienteEmail">Correo Electrónico</label>
+                        <input type="email" id="clienteEmail" placeholder="cliente@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="clienteTelefono">Teléfono*</label>
+                        <input type="tel" id="clienteTelefono" required placeholder="Número de contacto">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="clienteDireccion">Dirección</label>
+                    <textarea id="clienteDireccion" rows="2" placeholder="Dirección completa"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="clienteTipo">Tipo de Cliente*</label>
+                    <select id="clienteTipo" required>
+                        <option value="Natural">Persona Natural</option>
+                        <option value="Jurídica">Persona Jurídica</option>
+                        <option value="Gubernamental">Entidad Gubernamental</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="clienteObservaciones">Observaciones</label>
+                    <textarea id="clienteObservaciones" rows="3" placeholder="Información adicional relevante"></textarea>
+                </div>
+                
+                <div style="text-align: right; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                    <button type="button" class="btn btn-danger" id="cancelClienteBtn">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i> Guardar Cliente
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales para Dalcia Bello & Asociados
+        let currentUser = null;
+        let expedientes = [];
+        let audiencias = [];
+        let clientes = [];
+        let actividades = [];
+        let tareas = [];
+        let currentCalendarMonth = luxon.DateTime.now();
+        
+        // Base de datos de usuarios del bufete
+        const usuariosDB = [
+            { 
+                id: 1, 
+                username: 'dalcia', 
+                password: 'dbello2024', 
+                nombre: 'Dra. Dalcia Bello', 
+                rol: 'socia', 
+                email: 'dalcia.bello@bufete.com',
+                iniciales: 'DB'
+            },
+            { 
+                id: 2, 
+                username: 'abogado1', 
+                password: 'abogado123', 
+                nombre: 'Abogado1', 
+                rol: 'abogado', 
+                email: 'Abogado1@oficinaDB.com',
+                iniciales: 'A1'
+            },
+            { 
+                id: 3, 
+                username: 'Secretaria1', 
+                password: 'Secretaria123', 
+                nombre: 'Secretaria', 
+                rol: 'Secretaria', 
+                email: 'Secretaria@oficinaDB.com',
+                iniciales: 'AS'
+            },
+            { 
+                id: 4, 
+                username: 'Asistente1', 
+                password: 'Asistente123', 
+                nombre: 'Asistente', 
+                rol: 'Asistente', 
+                email: 'Asistente@oficinaDB.com',
+                iniciales: 'JL'
+            }
+        ];
+        
+        // Áreas de práctica del bufete
+        const areasPractica = [
+            'Civil', 'Penal', 'Familiar', 'Laboral', 'Mercantil', 'Administrativo', 'Inmobiliario'
+        ];
+        
+        // Juzgados comunes
+        const juzgados = [
+            'Juzgado Primero Civil',
+            'Juzgado Segundo Civil',
+            'Juzgado de Familia N° 1',
+            'Juzgado de Familia N° 2',
+            'Juzgado Penal',
+            'Juzgado Laboral',
+            'Juzgado Mercantil',
+            'Tribunal Superior'
+        ];
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar si hay usuario logueado
+            checkLoginStatus();
+            
+            // Configurar fecha actual
+            const now = luxon.DateTime.now();
+            document.getElementById('currentDate').textContent = now.toLocaleString({
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            document.getElementById('currentMonthYear').textContent = now.toLocaleString({ 
+                month: 'long', 
+                year: 'numeric'
+            });
+            
+            // Configurar fechas por defecto para el filtro
+            const firstDayOfMonth = now.startOf('month');
+            const lastDayOfMonth = now.endOf('month');
+            document.getElementById('fechaInicio').value = firstDayOfMonth.toISODate();
+            document.getElementById('fechaFin').value = lastDayOfMonth.toISODate();
+            
+            // Configurar fecha actual en formularios
+            document.getElementById('expedienteFecha').value = now.toISODate();
+            document.getElementById('audienciaFecha').value = now.toISODate();
+            document.getElementById('audienciaHora').value = '09:00';
+            
+            // Configurar eventos
+            setupEventListeners();
+            
+            // Cargar datos iniciales
+            if (currentUser) {
+                loadData();
+                updateDashboard();
+            }
+        });
+        
+        // Verificar estado de login
+        function checkLoginStatus() {
+            const userData = localStorage.getItem('currentUser');
+            if (userData) {
+                currentUser = JSON.parse(userData);
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('app').style.display = 'block';
+                document.getElementById('currentUser').textContent = currentUser.nombre;
+                document.getElementById('userAvatar').textContent = currentUser.iniciales;
+                
+                // Mostrar rol del usuario
+                const roleElement = document.getElementById('userRole');
+                const roleNames = {
+                    'socia': 'Socia Fundadora',
+                    'abogado': 'Abogado Senior',
+                    'asistente': 'Asistente Legal',
+                    'pasante': 'Pasante'
+                };
+                roleElement.textContent = roleNames[currentUser.rol] || currentUser.rol;
+                roleElement.className = 'user-role role-' + currentUser.rol;
+                
+                // Configurar permisos según rol
+                setupPermissions();
+            } else {
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('app').style.display = 'none';
+            }
+        }
+        
+        // Configurar permisos según rol
+        function setupPermissions() {
+            const addExpedienteBtn = document.getElementById('addExpedienteBtn');
+            const addAudienciaBtn = document.getElementById('addAudienciaBtn');
+            const addClienteBtn = document.getElementById('addClienteBtn');
+            const exportPdfBtn = document.getElementById('exportPdfBtn');
+            const exportWordBtn = document.getElementById('exportWordBtn');
+            
+            // Permisos por rol
+            switch(currentUser.rol) {
+                case 'socia':
+                case 'abogado':
+                    // Acceso completo
+                    addExpedienteBtn.style.display = 'inline-flex';
+                    addAudienciaBtn.style.display = 'inline-flex';
+                    addClienteBtn.style.display = 'inline-flex';
+                    exportPdfBtn.style.display = 'inline-flex';
+                    exportWordBtn.style.display = 'inline-flex';
+                    break;
+                case 'asistente':
+                    // Puede agregar audiencias y clientes
+                    addExpedienteBtn.style.display = 'none';
+                    addAudienciaBtn.style.display = 'inline-flex';
+                    addClienteBtn.style.display = 'inline-flex';
+                    exportPdfBtn.style.display = 'inline-flex';
+                    exportWordBtn.style.display = 'inline-flex';
+                    break;
+                case 'pasante':
+                    // Solo lectura
+                    addExpedienteBtn.style.display = 'none';
+                    addAudienciaBtn.style.display = 'none';
+                    addClienteBtn.style.display = 'none';
+                    exportPdfBtn.style.display = 'none';
+                    exportWordBtn.style.display = 'none';
+                    break;
+            }
+        }
+        
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Login
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                loginUser(username, password);
+            });
+            
+            // Botones de usuarios de prueba
+            document.querySelectorAll('.user-option-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const username = this.getAttribute('data-user');
+                    const password = this.getAttribute('data-pass');
+                    document.getElementById('username').value = username;
+                    document.getElementById('password').value = password;
+                });
+            });
+            
+            // Logout
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                // Registrar actividad de logout
+                if (currentUser) {
+                    registrarActividad('logout', 'Cierre de sesión', null);
+                }
+                
+                localStorage.removeItem('currentUser');
+                currentUser = null;
+                checkLoginStatus();
+            });
+            
+            // Navegación
+            document.getElementById('navHome').addEventListener('click', function() {
+                setActiveNav('navHome');
+                showPage('homePage');
+                updateDashboard();
+            });
+            
+            document.getElementById('navExpedientes').addEventListener('click', function() {
+                setActiveNav('navExpedientes');
+                showPage('expedientesPage');
+                renderExpedientesTable('all');
+            });
+            
+            document.getElementById('navAudiencias').addEventListener('click', function() {
+                setActiveNav('navAudiencias');
+                showPage('audienciasPage');
+                renderAudienciasTable();
+            });
+            
+            document.getElementById('navAgenda').addEventListener('click', function() {
+                setActiveNav('navAgenda');
+                showPage('agendaPage');
+                filterAgenda();
+            });
+            
+            document.getElementById('navCalendario').addEventListener('click', function() {
+                setActiveNav('navCalendario');
+                showPage('calendarioPage');
+                renderCalendar();
+            });
+            
+            document.getElementById('navClientes').addEventListener('click', function() {
+                setActiveNav('navClientes');
+                showPage('clientesPage');
+                renderClientesTable();
+            });
+            
+            // Vistas de expedientes
+            document.getElementById('viewAllBtn').addEventListener('click', function() {
+                setActiveView('viewAllBtn');
+                renderExpedientesTable('all');
+            });
+            
+            document.getElementById('viewActiveBtn').addEventListener('click', function() {
+                setActiveView('viewActiveBtn');
+                renderExpedientesTable('active');
+            });
+            
+            document.getElementById('viewUrgentBtn').addEventListener('click', function() {
+                setActiveView('viewUrgentBtn');
+                renderExpedientesTable('urgent');
+            });
+            
+            document.getElementById('viewMyBtn').addEventListener('click', function() {
+                setActiveView('viewMyBtn');
+                renderExpedientesTable('my');
+            });
+            
+            // Vistas de audiencias
+            document.getElementById('viewListBtn').addEventListener('click', function() {
+                setActiveAudienciaView('viewListBtn');
+                document.getElementById('audienciasList').style.display = 'block';
+                document.getElementById('audienciasCalendar').style.display = 'none';
+            });
+            
+            document.getElementById('viewWeekBtn').addEventListener('click', function() {
+                setActiveAudienciaView('viewWeekBtn');
+                renderAudienciasTable('week');
+            });
+            
+            document.getElementById('viewMonthBtn').addEventListener('click', function() {
+                setActiveAudienciaView('viewMonthBtn');
+                renderAudienciasTable('month');
+            });
+            
+            document.getElementById('viewCalendarBtn').addEventListener('click', function() {
+                setActiveAudienciaView('viewCalendarBtn');
+                document.getElementById('audienciasList').style.display = 'none';
+                document.getElementById('audienciasCalendar').style.display = 'block';
+                renderAudienciasCalendar();
+            });
+            
+            // Expedientes
+            document.getElementById('addExpedienteBtn').addEventListener('click', function() {
+                openExpedienteModal();
+            });
+            
+            document.getElementById('closeExpedienteModal').addEventListener('click', closeExpedienteModal);
+            document.getElementById('cancelExpedienteBtn').addEventListener('click', closeExpedienteModal);
+            
+            document.getElementById('expedienteForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveExpediente();
+            });
+            
+            // Audiencias
+            document.getElementById('addAudienciaBtn').addEventListener('click', function() {
+                openAudienciaModal();
+            });
+            
+            document.getElementById('closeAudienciaModal').addEventListener('click', closeAudienciaModal);
+            document.getElementById('cancelAudienciaBtn').addEventListener('click', closeAudienciaModal);
+            
+            document.getElementById('audienciaForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveAudiencia();
+            });
+            
+            // Clientes
+            document.getElementById('addClienteBtn').addEventListener('click', function() {
+                openClienteModal();
+            });
+            
+            document.getElementById('closeClienteModal').addEventListener('click', closeClienteModal);
+            document.getElementById('cancelClienteBtn').addEventListener('click', closeClienteModal);
+            
+            document.getElementById('clienteForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveCliente();
+            });
+            
+            // Agenda
+            document.getElementById('filterAgendaBtn').addEventListener('click', filterAgenda);
+            document.getElementById('exportPdfBtn').addEventListener('click', exportToPDF);
+            document.getElementById('exportWordBtn').addEventListener('click', function() {
+                alert('Exportación a Word disponible en versión premium');
+            });
+            
+            // Calendario
+            document.getElementById('prevMonthBtn').addEventListener('click', function() {
+                currentCalendarMonth = currentCalendarMonth.minus({ months: 1 });
+                renderCalendar();
+            });
+            
+            document.getElementById('nextMonthBtn').addEventListener('click', function() {
+                currentCalendarMonth = currentCalendarMonth.plus({ months: 1 });
+                renderCalendar();
+            });
+            
+            document.getElementById('todayBtn').addEventListener('click', function() {
+                currentCalendarMonth = luxon.DateTime.now();
+                renderCalendar();
+            });
+            
+            // Cerrar modales al hacer clic fuera de ellos
+            window.addEventListener('click', function(event) {
+                const modals = ['expedienteModal', 'audienciaModal', 'clienteModal'];
+                modals.forEach(modalId => {
+                    const modal = document.getElementById(modalId);
+                    if (event.target === modal) {
+                        if (modalId === 'expedienteModal') closeExpedienteModal();
+                        if (modalId === 'audienciaModal') closeAudienciaModal();
+                        if (modalId === 'clienteModal') closeClienteModal();
+                    }
+                });
+            });
+        }
+        
+        // Iniciar sesión
+        function loginUser(username, password) {
+            const usuario = usuariosDB.find(u => u.username === username && u.password === password);
+            
+            if (usuario) {
+                currentUser = usuario;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Registrar actividad de login
+                registrarActividad('login', 'Inicio de sesión', null);
+                
+                checkLoginStatus();
+                loadData();
+                updateDashboard();
+                showPage('homePage');
+                
+                // Mensaje de bienvenida personalizado
+                setTimeout(() => {
+                    const welcomeMessages = {
+                        'socia': `¡Bienvenida Dra. Bello! Todo listo para su día.`,
+                        'abogado': `¡Buen día Lic. ${usuario.nombre.split(' ')[1]}! Revisemos la agenda.`,
+                        'asistente': `¡Hola ${usuario.nombre.split(' ')[0]}! El bufete le espera.`,
+                        'pasante': `¡Bienvenido ${usuario.nombre.split(' ')[1]}! Aprendamos juntos hoy.`
+                    };
+                    
+                    alert(welcomeMessages[usuario.rol] || `¡Bienvenido ${usuario.nombre}!`);
+                }, 100);
+            } else {
+                alert('Credenciales incorrectas. Use una de las cuentas de prueba.');
+            }
+        }
+        
+        // Mostrar página específica
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            document.getElementById(pageId).style.display = 'block';
+        }
+        
+        // Establecer navegación activa
+        function setActiveNav(navId) {
+            const navItems = document.querySelectorAll('nav ul li a');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            document.getElementById(navId).classList.add('active');
+        }
+        
+        // Establecer vista activa (expedientes)
+        function setActiveView(viewId) {
+            const views = ['viewAllBtn', 'viewActiveBtn', 'viewUrgentBtn', 'viewMyBtn'];
+            views.forEach(view => {
+                document.getElementById(view).classList.remove('active');
+            });
+            
+            document.getElementById(viewId).classList.add('active');
+        }
+        
+        // Establecer vista activa (audiencias)
+        function setActiveAudienciaView(viewId) {
+            const views = ['viewListBtn', 'viewWeekBtn', 'viewMonthBtn', 'viewCalendarBtn'];
+            views.forEach(view => {
+                document.getElementById(view).classList.remove('active');
+            });
+            
+            document.getElementById(viewId).classList.add('active');
+        }
+        
+        // Cargar datos desde localStorage
+        function loadData() {
+            // Cargar expedientes
+            const savedExpedientes = localStorage.getItem('expedientes_dalcia');
+            if (savedExpedientes) {
+                expedientes = JSON.parse(savedExpedientes);
+            } else {
+                // Datos de ejemplo para el bufete
+                expedientes = [
+                    {
+                        id: 1,
+                        numero: '2024-001-CIV',
+                        cliente: 'Empresa Constructora S.A.',
+                        tipo: 'Civil',
+                        fechaInicio: '2024-01-15',
+                        estado: 'En juicio',
+                        prioridad: 'Alta',
+                        responsable: 'Dra. Dalcia Bello',
+                        juzgado: 'Juzgado Primero Civil',
+                        descripcion: 'Demanda por incumplimiento de contrato de obra',
+                        observaciones: 'Se requiere presentar peritaje técnico',
+                        creadoPor: 'dalcia',
+                        fechaCreacion: '2024-01-15'
+                    },
+                    {
+                        id: 2,
+                        numero: '2024-002-FAM',
+                        cliente: 'Familia González Rodríguez',
+                        tipo: 'Familiar',
+                        fechaInicio: '2024-02-10',
+                        estado: 'Activo',
+                        prioridad: 'Media',
+                        responsable: 'Lic. Ana Martínez',
+                        juzgado: 'Juzgado de Familia N° 1',
+                        descripcion: 'Proceso de divorcio contencioso',
+                        observaciones: 'Acuerdo de pensión alimenticia pendiente',
+                        creadoPor: 'abogado1',
+                        fechaCreacion: '2024-02-10'
+                    },
+                    {
+                        id: 3,
+                        numero: '2023-045-PEN',
+                        cliente: 'Juan Carlos Méndez',
+                        tipo: 'Penal',
+                        fechaInicio: '2023-11-20',
+                        estado: 'En apelación',
+                        prioridad: 'Alta',
+                        responsable: 'Lic. Carlos Rodríguez',
+                        juzgado: 'Juzgado Penal',
+                        descripcion: 'Defensa en caso de estafa',
+                        observaciones: 'Preparando recurso de apelación',
+                        creadoPor: 'dalcia',
+                        fechaCreacion: '2023-11-20'
+                    }
+                ];
+                saveExpedientes();
+            }
+            
+            // Cargar audiencias
+            const savedAudiencias = localStorage.getItem('audiencias_dalcia');
+            if (savedAudiencias) {
+                audiencias = JSON.parse(savedAudiencias);
+            } else {
+                // Datos de ejemplo
+                audiencias = [
+                    {
+                        id: 1,
+                        expedienteId: 1,
+                        tipo: 'Vista',
+                        fecha: luxon.DateTime.now().plus({ days: 2 }).toISODate(),
+                        hora: '09:30',
+                        juzgado: 'Juzgado Primero Civil',
+                        sala: 'Sala 2',
+                        estado: 'Confirmada',
+                        responsable: 'Dra. Dalcia Bello',
+                        asistentes: 'Cliente, perito contador',
+                        preparacion: 'Llevar informe pericial, contratos originales',
+                        observaciones: 'Primera vista para presentación de pruebas',
+                        creadoPor: 'dalcia',
+                        fechaCreacion: luxon.DateTime.now().minus({ days: 5 }).toISODate()
+                    },
+                    {
+                        id: 2,
+                        expedienteId: 2,
+                        tipo: 'Conciliación',
+                        fecha: luxon.DateTime.now().plus({ days: 5 }).toISODate(),
+                        hora: '11:00',
+                        juzgado: 'Juzgado de Familia N° 1',
+                        sala: 'Sala de Conciliación',
+                        estado: 'Pendiente',
+                        responsable: 'Lic. Ana Martínez',
+                        asistentes: 'Ambas partes, mediador',
+                        preparacion: 'Propuesta de acuerdo, estados financieros',
+                        observaciones: 'Segundo intento de conciliación',
+                        creadoPor: 'abogado1',
+                        fechaCreacion: luxon.DateTime.now().minus({ days: 3 }).toISODate()
+                    },
+                    {
+                        id: 3,
+                        expedienteId: 3,
+                        tipo: 'Reenvío',
+                        fecha: luxon.DateTime.now().minus({ days: 7 }).toISODate(),
+                        hora: '14:00',
+                        juzgado: 'Juzgado Penal',
+                        sala: 'Sala 4',
+                        estado: 'Realizada',
+                        responsable: 'Lic. Carlos Rodríguez',
+                        asistentes: 'Cliente, fiscal',
+                        preparacion: 'Documentación complementaria',
+                        observaciones: 'Reenvío por falta de documentación. Se presentó lo faltante. Próxima vista en 30 días.',
+                        creadoPor: 'asistente1',
+                        fechaCreacion: luxon.DateTime.now().minus({ days: 10 }).toISODate()
+                    }
+                ];
+                saveAudiencias();
+            }
+            
+            // Cargar clientes
+            const savedClientes = localStorage.getItem('clientes_dalcia');
+            if (savedClientes) {
+                clientes = JSON.parse(savedClientes);
+            } else {
+                // Datos de ejemplo
+                clientes = [
+                    {
+                        id: 1,
+                        nombre: 'Empresa Constructora S.A.',
+                        identificacion: '1234567890001',
+                        email: 'contacto@constructora.com',
+                        telefono: '0991234567',
+                        direccion: 'Av. Principal 123, Quito',
+                        tipo: 'Jurídica',
+                        observaciones: 'Cliente corporativo, pago puntual',
+                        estado: 'Activo',
+                        fechaRegistro: '2024-01-15',
+                        expedientes: [1]
+                    },
+                    {
+                        id: 2,
+                        nombre: 'María González',
+                        identificacion: '1712345678',
+                        email: 'maria.gonzalez@email.com',
+                        telefono: '0987654321',
+                        direccion: 'Calle Falsa 123, Quito',
+                        tipo: 'Natural',
+                        observaciones: 'Proceso de divorcio',
+                        estado: 'Activo',
+                        fechaRegistro: '2024-02-10',
+                        expedientes: [2]
+                    },
+                    {
+                        id: 3,
+                        nombre: 'Juan Carlos Méndez',
+                        identificacion: '1709876543',
+                        email: 'juan.mendez@email.com',
+                        telefono: '0976543210',
+                        direccion: 'Av. Amazonas 456, Quito',
+                        tipo: 'Natural',
+                        observaciones: 'Caso penal en apelación',
+                        estado: 'Activo',
+                        fechaRegistro: '2023-11-20',
+                        expedientes: [3]
+                    }
+                ];
+                saveClientes();
+            }
+            
+            // Cargar actividades
+            const savedActividades = localStorage.getItem('actividades_dalcia');
+            if (savedActividades) {
+                actividades = JSON.parse(savedActividades);
+            } else {
+                actividades = [
+                    {
+                        id: 1,
+                        tipo: 'login',
+                        descripcion: 'Inicio de sesión',
+                        referencia: null,
+                        usuario: 'Dra. Dalcia Bello',
+                        fecha: luxon.DateTime.now().minus({ hours: 2 }).toISO()
+                    },
+                    {
+                        id: 2,
+                        tipo: 'audiencia',
+                        descripcion: 'Audiencia de conciliación programada',
+                        referencia: '2024-002-FAM',
+                        usuario: 'Lic. Ana Martínez',
+                        fecha: luxon.DateTime.now().minus({ days: 1 }).toISO()
+                    },
+                    {
+                        id: 3,
+                        tipo: 'expediente',
+                        descripcion: 'Nuevo expediente creado',
+                        referencia: '2024-001-CIV',
+                        usuario: 'Dra. Dalcia Bello',
+                        fecha: luxon.DateTime.now().minus({ days: 2 }).toISO()
+                    }
+                ];
+                saveActividades();
+            }
+            
+            // Inicializar tareas
+            tareas = [
+                {
+                    id: 1,
+                    descripcion: 'Preparar alegatos para vista del caso 2024-001-CIV',
+                    fecha: luxon.DateTime.now().plus({ days: 1 }).toISODate(),
+                    prioridad: 'Alta',
+                    responsable: 'Dra. Dalcia Bello',
+                    estado: 'Pendiente'
+                },
+                {
+                    id: 2,
+                    descripcion: 'Enviar documentación complementaria al juzgado',
+                    fecha: luxon.DateTime.now().toISODate(),
+                    prioridad: 'Media',
+                    responsable: 'Lic. Carlos Rodríguez',
+                    estado: 'Pendiente'
+                },
+                {
+                    id: 3,
+                    descripcion: 'Actualizar estados de clientes',
+                    fecha: luxon.DateTime.now().plus({ days: 3 }).toISODate(),
+                    prioridad: 'Baja',
+                    responsable: 'Sra. María Fernández',
+                    estado: 'Pendiente'
+                }
+            ];
+        }
+        
+        // Guardar datos en localStorage
+        function saveExpedientes() {
+            localStorage.setItem('expedientes_dalcia', JSON.stringify(expedientes));
+        }
+        
+        function saveAudiencias() {
+            localStorage.setItem('audiencias_dalcia', JSON.stringify(audiencias));
+        }
+        
+        function saveClientes() {
+            localStorage.setItem('clientes_dalcia', JSON.stringify(clientes));
+        }
+        
+        function saveActividades() {
+            localStorage.setItem('actividades_dalcia', JSON.stringify(actividades));
+        }
+        
+        // Registrar actividad
+        function registrarActividad(tipo, descripcion, referencia) {
+            const nuevaActividad = {
+                id: actividades.length > 0 ? Math.max(...actividades.map(a => a.id)) + 1 : 1,
+                tipo: tipo,
+                descripcion: descripcion,
+                referencia: referencia,
+                usuario: currentUser.nombre,
+                fecha: luxon.DateTime.now().toISO()
+            };
+            
+            actividades.unshift(nuevaActividad);
+            if (actividades.length > 100) {
+                actividades = actividades.slice(0, 100);
+            }
+            
+            saveActividades();
+        }
+        
+        // Actualizar dashboard
+        function updateDashboard() {
+            // Contar expedientes activos
+            const expedientesActivos = expedientes.filter(e => 
+                e.estado !== 'Concluido' && e.estado !== 'Archivado'
+            ).length;
+            document.getElementById('expedientesCount').textContent = expedientesActivos;
+            
+            // Caso más urgente
+            const casoUrgente = expedientes
+                .filter(e => e.prioridad === 'Alta' && e.estado !== 'Concluido')
+                .sort((a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio))[0];
+            
+            document.getElementById('casoUrgente').textContent = casoUrgente ? 
+                casoUrgente.numero : 'Ninguno';
+            
+            // Audiencias esta semana
+            const hoy = luxon.DateTime.now().startOf('day');
+            const finSemana = hoy.plus({ days: 7 });
+            
+            const audienciasSemana = audiencias.filter(a => {
+                const fechaAudiencia = luxon.DateTime.fromISO(a.fecha);
+                return fechaAudiencia >= hoy && fechaAudiencia <= finSemana;
+            }).length;
+            
+            document.getElementById('audienciasCount').textContent = audienciasSemana;
+            
+            // Próxima audiencia
+            const proximaAudiencia = audiencias
+                .filter(a => {
+                    const fechaAudiencia = luxon.DateTime.fromISO(a.fecha);
+                    return fechaAudiencia >= hoy && a.estado === 'Pendiente';
+                })
+                .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))[0];
+            
+            if (proximaAudiencia) {
+                const expediente = expedientes.find(e => e.id === proximaAudiencia.expedienteId);
+                document.getElementById('proximaAudiencia').textContent = 
+                    `${luxon.DateTime.fromISO(proximaAudiencia.fecha).toLocaleString(luxon.DateTime.DATE_SHORT)} - ${expediente?.numero || 'N/A'}`;
+            } else {
+                document.getElementById('proximaAudiencia').textContent = 'Ninguna';
+            }
+            
+            // Contar clientes activos
+            const clientesActivos = clientes.filter(c => c.estado === 'Activo').length;
+            document.getElementById('clientesCount').textContent = clientesActivos;
+            
+            // Nuevos clientes este mes
+            const inicioMes = luxon.DateTime.now().startOf('month');
+            const nuevosClientes = clientes.filter(c => 
+                luxon.DateTime.fromISO(c.fechaRegistro) >= inicioMes
+            ).length;
+            document.getElementById('nuevosClientes').textContent = nuevosClientes;
+            
+            // Tareas pendientes
+            const tareasPendientes = tareas.filter(t => t.estado === 'Pendiente').length;
+            document.getElementById('pendientesCount').textContent = tareasPendientes;
+            
+            // Tareas que vencen hoy
+            const tareasHoy = tareas.filter(t => 
+                t.estado === 'Pendiente' && 
+                luxon.DateTime.fromISO(t.fecha).hasSame(hoy, 'day')
+            ).length;
+            document.getElementById('vencenHoy').textContent = tareasHoy;
+            
+            // Actualizar actividad reciente
+            renderRecentActivity();
+        }
+        
+        // Renderizar actividad reciente
+        function renderRecentActivity() {
+            const tbody = document.querySelector('#recentActivityTable tbody');
+            tbody.innerHTML = '';
+            
+            // Tomar las 8 actividades más recientes
+            const actividadesRecientes = actividades.slice(0, 8);
+            
+            actividadesRecientes.forEach(act => {
+                const fecha = luxon.DateTime.fromISO(act.fecha);
+                const fechaFormateada = fecha.toLocaleString(luxon.DateTime.DATETIME_SHORT);
+                
+                // Icono según tipo
+                let icono = '';
+                if (act.tipo === 'login') icono = '🔐';
+                else if (act.tipo === 'logout') icono = '🚪';
+                else if (act.tipo === 'expediente') icono = '📁';
+                else if (act.tipo === 'audiencia') icono = '⚖️';
+                else if (act.tipo === 'cliente') icono = '👤';
+                else icono = '📝';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${fechaFormateada}</td>
+                    <td>${icono} ${act.tipo}</td>
+                    <td>${act.descripcion}</td>
+                    <td>${act.referencia || 'N/A'}</td>
+                    <td>${act.usuario}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            if (actividadesRecientes.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="5" class="empty-state" style="padding: 2rem;">
+                        <i class="fas fa-history"></i>
+                        <h4>No hay actividad reciente</h4>
+                        <p>El sistema aún no registra actividades</p>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            }
+        }
+        
+        // Renderizar tabla de expedientes
+        function renderExpedientesTable(filter = 'all') {
+            const tbody = document.querySelector('#expedientesTable tbody');
+            tbody.innerHTML = '';
+            
+            // Filtrar expedientes
+            let expedientesFiltrados = expedientes;
+            
+            switch(filter) {
+                case 'active':
+                    expedientesFiltrados = expedientes.filter(e => 
+                        e.estado !== 'Concluido' && e.estado !== 'Archivado'
+                    );
+                    break;
+                case 'urgent':
+                    expedientesFiltrados = expedientes.filter(e => 
+                        e.prioridad === 'Alta' && e.estado !== 'Concluido'
+                    );
+                    break;
+                case 'my':
+                    expedientesFiltrados = expedientes.filter(e => 
+                        e.responsable === currentUser.nombre
+                    );
+                    break;
+            }
+            
+            if (expedientesFiltrados.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="8" class="empty-state">
+                        <i class="fas fa-folder-open"></i>
+                        <h4>No hay expedientes</h4>
+                        <p>${filter === 'my' ? 'No tiene expedientes asignados' : 
+                           filter === 'urgent' ? 'No hay expedientes urgentes' : 
+                           'No se encontraron expedientes'}</p>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                return;
+            }
+            
+            expedientesFiltrados.forEach(exp => {
+                const fechaFormateada = luxon.DateTime.fromISO(exp.fechaInicio).toLocaleString(luxon.DateTime.DATE_SHORT);
+                
+                // Clase CSS para el tipo de caso
+                let tipoClass = 'case-' + exp.tipo.toLowerCase();
+                if (!['civil', 'penal', 'familiar', 'laboral', 'mercantil'].includes(exp.tipo.toLowerCase())) {
+                    tipoClass = 'case-civil';
+                }
+                
+                // Clase CSS para prioridad
+                let prioridadClass = 'priority-' + exp.prioridad.toLowerCase();
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${exp.numero}</strong></td>
+                    <td>${exp.cliente}</td>
+                    <td><span class="case-type-badge ${tipoClass}">${exp.tipo}</span></td>
+                    <td>${fechaFormateada}</td>
+                    <td><span class="audience-status status-pending">${exp.estado}</span></td>
+                    <td><span class="${prioridadClass}">${exp.prioridad}</span></td>
+                    <td>${exp.responsable}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-sm view-expediente" data-id="${exp.id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${currentUser.rol !== 'pasante' ? `
+                                <button class="btn btn-warning btn-sm edit-expediente" data-id="${exp.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            ` : ''}
+                            ${currentUser.rol === 'socia' ? `
+                                <button class="btn btn-danger btn-sm delete-expediente" data-id="${exp.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Agregar event listeners
+            document.querySelectorAll('.view-expediente').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    alert(`Detalles del expediente ${id} - Función en desarrollo`);
+                });
+            });
+            
+            document.querySelectorAll('.edit-expediente').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    openExpedienteModal(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-expediente').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    if (confirm('¿Está seguro de eliminar este expediente? Esta acción no se puede deshacer.')) {
+                        deleteExpediente(id);
+                    }
+                });
+            });
+        }
+        
+        // Abrir modal de expediente
+        function openExpedienteModal(id = null) {
+            // Verificar permisos
+            if (currentUser.rol === 'pasante' || currentUser.rol === 'asistente') {
+                alert('No tiene permisos para crear o editar expedientes');
+                return;
+            }
+            
+            const modal = document.getElementById('expedienteModal');
+            const title = document.getElementById('modalExpedienteTitle');
+            
+            if (id) {
+                // Modo edición
+                const expediente = expedientes.find(e => e.id === id);
+                if (expediente) {
+                    // Verificar permisos
+                    if (currentUser.rol !== 'socia' && expediente.responsable !== currentUser.nombre) {
+                        alert('Solo puede editar expedientes donde es responsable');
+                        return;
+                    }
+                    
+                    title.textContent = 'Editar Expediente';
+                    document.getElementById('expedienteId').value = expediente.id;
+                    document.getElementById('expedienteNumero').value = expediente.numero;
+                    document.getElementById('expedienteCliente').value = expediente.cliente;
+                    document.getElementById('expedienteTipo').value = expediente.tipo;
+                    document.getElementById('expedienteFecha').value = expediente.fechaInicio;
+                    document.getElementById('expedienteEstado').value = expediente.estado;
+                    document.getElementById('expedientePrioridad').value = expediente.prioridad;
+                    document.getElementById('expedienteResponsable').value = expediente.responsable;
+                    document.getElementById('expedienteJuzgado').value = expediente.juzgado || '';
+                    document.getElementById('expedienteDescripcion').value = expediente.descripcion || '';
+                    document.getElementById('expedienteObservaciones').value = expediente.observaciones || '';
+                }
+            } else {
+                // Modo nuevo
+                title.textContent = 'Nuevo Expediente';
+                document.getElementById('expedienteForm').reset();
+                document.getElementById('expedienteId').value = '';
+                document.getElementById('expedienteFecha').value = luxon.DateTime.now().toISODate();
+                document.getElementById('expedientePrioridad').value = 'Media';
+                // Asignar automáticamente al usuario actual si no es socia
+                if (currentUser.rol === 'abogado') {
+                    document.getElementById('expedienteResponsable').value = currentUser.nombre;
+                }
+            }
+            
+            modal.style.display = 'block';
+        }
+        
+        // Cerrar modal de expediente
+        function closeExpedienteModal() {
+            document.getElementById('expedienteModal').style.display = 'none';
+        }
+        
+        // Guardar expediente
+        function saveExpediente() {
+            const id = document.getElementById('expedienteId').value;
+            const numero = document.getElementById('expedienteNumero').value;
+            const cliente = document.getElementById('expedienteCliente').value;
+            const tipo = document.getElementById('expedienteTipo').value;
+            const fechaInicio = document.getElementById('expedienteFecha').value;
+            const estado = document.getElementById('expedienteEstado').value;
+            const prioridad = document.getElementById('expedientePrioridad').value;
+            const responsable = document.getElementById('expedienteResponsable').value;
+            const juzgado = document.getElementById('expedienteJuzgado').value;
+            const descripcion = document.getElementById('expedienteDescripcion').value;
+            const observaciones = document.getElementById('expedienteObservaciones').value;
+            
+            if (id) {
+                // Actualizar expediente existente
+                const index = expedientes.findIndex(e => e.id === parseInt(id));
+                if (index !== -1) {
+                    expedientes[index] = {
+                        ...expedientes[index],
+                        numero,
+                        cliente,
+                        tipo,
+                        fechaInicio,
+                        estado,
+                        prioridad,
+                        responsable,
+                        juzgado,
+                        descripcion,
+                        observaciones
+                    };
+                    
+                    registrarActividad('expediente', `Expediente ${numero} actualizado`, numero);
+                }
+            } else {
+                // Crear nuevo expediente
+                const newId = expedientes.length > 0 ? Math.max(...expedientes.map(e => e.id)) + 1 : 1;
+                expedientes.push({
+                    id: newId,
+                    numero,
+                    cliente,
+                    tipo,
+                    fechaInicio,
+                    estado,
+                    prioridad,
+                    responsable,
+                    juzgado,
+                    descripcion,
+                    observaciones,
+                    creadoPor: currentUser.username,
+                    fechaCreacion: luxon.DateTime.now().toISODate()
+                });
+                
+                registrarActividad('expediente', `Nuevo expediente ${numero} creado`, numero);
+            }
+            
+            saveExpedientes();
+            closeExpedienteModal();
+            renderExpedientesTable();
+            updateDashboard();
+            populateExpedientesDropdown();
+            
+            alert('Expediente guardado correctamente');
+        }
+        
+        // Eliminar expediente
+        function deleteExpediente(id) {
+            if (currentUser.rol !== 'socia') {
+                alert('Solo la Socia Fundadora puede eliminar expedientes');
+                return;
+            }
+            
+            const expediente = expedientes.find(e => e.id === id);
+            const tieneAudiencias = audiencias.some(a => a.expedienteId === id);
+            
+            if (tieneAudiencias) {
+                alert('No se puede eliminar el expediente porque tiene audiencias asociadas');
+                return;
+            }
+            
+            if (confirm(`¿Está seguro de eliminar el expediente ${expediente.numero}?`)) {
+                expedientes = expedientes.filter(e => e.id !== id);
+                saveExpedientes();
+                renderExpedientesTable();
+                updateDashboard();
+                
+                registrarActividad('expediente', `Expediente ${expediente.numero} eliminado`, expediente.numero);
+                
+                alert('Expediente eliminado correctamente');
+            }
+        }
+        
+        // Renderizar tabla de audiencias
+        function renderAudienciasTable(filter = 'all') {
+            const tbody = document.querySelector('#audienciasTable tbody');
+            tbody.innerHTML = '';
+            
+            // Filtrar audiencias
+            let audienciasFiltradas = audiencias;
+            
+            if (filter === 'week') {
+                const hoy = luxon.DateTime.now().startOf('day');
+                const finSemana = hoy.plus({ days: 7 });
+                audienciasFiltradas = audiencias.filter(a => {
+                    const fecha = luxon.DateTime.fromISO(a.fecha);
+                    return fecha >= hoy && fecha <= finSemana;
+                });
+            } else if (filter === 'month') {
+                const inicioMes = luxon.DateTime.now().startOf('month');
+                const finMes = inicioMes.endOf('month');
+                audienciasFiltradas = audiencias.filter(a => {
+                    const fecha = luxon.DateTime.fromISO(a.fecha);
+                    return fecha >= inicioMes && fecha <= finMes;
+                });
+            }
+            
+            // Ordenar por fecha
+            audienciasFiltradas.sort((a, b) => {
+                const fechaA = new Date(a.fecha + 'T' + a.hora);
+                const fechaB = new Date(b.fecha + 'T' + b.hora);
+                return fechaA - fechaB;
+            });
+            
+            if (audienciasFiltradas.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="7" class="empty-state">
+                        <i class="fas fa-gavel"></i>
+                        <h4>No hay audiencias</h4>
+                        <p>${filter === 'week' ? 'No hay audiencias esta semana' : 
+                           filter === 'month' ? 'No hay audiencias este mes' : 
+                           'No se encontraron audiencias'}</p>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                return;
+            }
+            
+            audienciasFiltradas.forEach(aud => {
+                const expediente = expedientes.find(e => e.id === aud.expedienteId);
+                const fechaFormateada = luxon.DateTime.fromISO(aud.fecha).toLocaleString(luxon.DateTime.DATE_SHORT);
+                const fechaHora = `${fechaFormateada} ${aud.hora}`;
+                
+                // Determinar clase de estado
+                let estadoClass = '';
+                if (aud.estado === 'Pendiente' || aud.estado === 'Confirmada') estadoClass = 'status-pending';
+                if (aud.estado === 'Realizada') estadoClass = 'status-completed';
+                if (aud.estado === 'Cancelada') estadoClass = 'status-cancelled';
+                if (aud.estado === 'Reagendada') estadoClass = 'status-rescheduled';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${fechaHora}</td>
+                    <td><strong>${expediente ? expediente.numero : 'N/A'}</strong><br>
+                        <small>${expediente ? expediente.cliente : 'N/A'}</small></td>
+                    <td>${aud.tipo}</td>
+                    <td>${aud.juzgado}${aud.sala ? ` (${aud.sala})` : ''}</td>
+                    <td><span class="audience-status ${estadoClass}">${aud.estado}</span></td>
+                    <td>${aud.responsable}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-sm view-audiencia" data-id="${aud.id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${currentUser.rol !== 'pasante' ? `
+                                <button class="btn btn-warning btn-sm edit-audiencia" data-id="${aud.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            ` : ''}
+                            ${currentUser.rol === 'socia' ? `
+                                <button class="btn btn-danger btn-sm delete-audiencia" data-id="${aud.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Agregar event listeners
+            document.querySelectorAll('.view-audiencia').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    showAudienciaDetails(id);
+                });
+            });
+            
+            document.querySelectorAll('.edit-audiencia').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    openAudienciaModal(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-audiencia').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    if (confirm('¿Está seguro de eliminar esta audiencia?')) {
+                        deleteAudiencia(id);
+                    }
+                });
+            });
+        }
+        
+        // Abrir modal de audiencia
+        function openAudienciaModal(id = null) {
+            // Verificar permisos
+            if (currentUser.rol === 'pasante') {
+                alert('No tiene permisos para crear o editar audiencias');
+                return;
+            }
+            
+            const modal = document.getElementById('audienciaModal');
+            const title = document.getElementById('modalAudienciaTitle');
+            
+            // Poblar dropdown de expedientes
+            populateExpedientesDropdown();
+            
+            if (id) {
+                // Modo edición
+                const audiencia = audiencias.find(a => a.id === id);
+                if (audiencia) {
+                    // Verificar permisos
+                    if (currentUser.rol !== 'socia' && audiencia.responsable !== currentUser.nombre) {
+                        alert('Solo puede editar audiencias donde es responsable');
+                        return;
+                    }
+                    
+                    title.textContent = 'Editar Audiencia';
+                    document.getElementById('audienciaId').value = audiencia.id;
+                    document.getElementById('audienciaExpediente').value = audiencia.expedienteId;
+                    document.getElementById('audienciaTipo').value = audiencia.tipo;
+                    document.getElementById('audienciaFecha').value = audiencia.fecha;
+                    document.getElementById('audienciaHora').value = audiencia.hora;
+                    document.getElementById('audienciaJuzgado').value = audiencia.juzgado;
+                    document.getElementById('audienciaSala').value = audiencia.sala || '';
+                    document.getElementById('audienciaEstado').value = audiencia.estado;
+                    document.getElementById('audienciaResponsable').value = audiencia.responsable;
+                    document.getElementById('audienciaAsistentes').value = audiencia.asistentes || '';
+                    document.getElementById('audienciaPreparacion').value = audiencia.preparacion || '';
+                    document.getElementById('audienciaObservaciones').value = audiencia.observaciones || '';
+                }
+            } else {
+                // Modo nuevo
+                title.textContent = 'Nueva Audiencia';
+                document.getElementById('audienciaForm').reset();
+                document.getElementById('audienciaId').value = '';
+                document.getElementById('audienciaFecha').value = luxon.DateTime.now().toISODate();
+                document.getElementById('audienciaHora').value = '09:00';
+                document.getElementById('audienciaEstado').value = 'Pendiente';
+                // Asignar automáticamente al usuario actual si no es socia
+                if (currentUser.rol === 'abogado') {
+                    document.getElementById('audienciaResponsable').value = currentUser.nombre;
+                }
+            }
+            
+            modal.style.display = 'block';
+        }
+        
+        // Poblar dropdown de expedientes
+        function populateExpedientesDropdown() {
+            const dropdown = document.getElementById('audienciaExpediente');
+            dropdown.innerHTML = '<option value="">Seleccione expediente</option>';
+            
+            // Solo expedientes activos
+            const expedientesActivos = expedientes.filter(e => 
+                e.estado !== 'Concluido' && e.estado !== 'Archivado'
+            );
+            
+            expedientesActivos.forEach(exp => {
+                const option = document.createElement('option');
+                option.value = exp.id;
+                option.textContent = `${exp.numero} - ${exp.cliente} (${exp.tipo})`;
+                dropdown.appendChild(option);
+            });
+        }
+        
+        // Cerrar modal de audiencia
+        function closeAudienciaModal() {
+            document.getElementById('audienciaModal').style.display = 'none';
+        }
+        
+        // Guardar audiencia
+        function saveAudiencia() {
+            const id = document.getElementById('audienciaId').value;
+            const expedienteId = parseInt(document.getElementById('audienciaExpediente').value);
+            const tipo = document.getElementById('audienciaTipo').value;
+            const fecha = document.getElementById('audienciaFecha').value;
+            const hora = document.getElementById('audienciaHora').value;
+            const juzgado = document.getElementById('audienciaJuzgado').value;
+            const sala = document.getElementById('audienciaSala').value;
+            const estado = document.getElementById('audienciaEstado').value;
+            const responsable = document.getElementById('audienciaResponsable').value;
+            const asistentes = document.getElementById('audienciaAsistentes').value;
+            const preparacion = document.getElementById('audienciaPreparacion').value;
+            const observaciones = document.getElementById('audienciaObservaciones').value;
+            
+            // Obtener expediente
+            const expediente = expedientes.find(e => e.id === expedienteId);
+            const expNumero = expediente ? expediente.numero : 'N/A';
+            
+            if (id) {
+                // Actualizar audiencia
+                const index = audiencias.findIndex(a => a.id === parseInt(id));
+                if (index !== -1) {
+                    audiencias[index] = {
+                        ...audiencias[index],
+                        expedienteId,
+                        tipo,
+                        fecha,
+                        hora,
+                        juzgado,
+                        sala,
+                        estado,
+                        responsable,
+                        asistentes,
+                        preparacion,
+                        observaciones
+                    };
+                    
+                    registrarActividad('audiencia', `Audiencia ${tipo} actualizada`, expNumero);
+                }
+            } else {
+                // Nueva audiencia
+                const newId = audiencias.length > 0 ? Math.max(...audiencias.map(a => a.id)) + 1 : 1;
+                audiencias.push({
+                    id: newId,
+                    expedienteId,
+                    tipo,
+                    fecha,
+                    hora,
+                    juzgado,
+                    sala,
+                    estado,
+                    responsable,
+                    asistentes,
+                    preparacion,
+                    observaciones,
+                    creadoPor: currentUser.username,
+                    fechaCreacion: luxon.DateTime.now().toISODate()
+                });
+                
+                registrarActividad('audiencia', `Nueva audiencia ${tipo} programada`, expNumero);
+            }
+            
+            saveAudiencias();
+            closeAudienciaModal();
+            renderAudienciasTable();
+            updateDashboard();
+            
+            alert('Audiencia guardada correctamente');
+        }
+        
+        // Mostrar detalles de audiencia
+        function showAudienciaDetails(id) {
+            const audiencia = audiencias.find(a => a.id === id);
+            if (!audiencia) return;
+            
+            const expediente = expedientes.find(e => e.id === audiencia.expedienteId);
+            const fechaFormateada = luxon.DateTime.fromISO(audiencia.fecha).toLocaleString(luxon.DateTime.DATE_FULL);
+            
+            let contenido = `
+                <div style="padding: 1.5rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1.5rem; border-bottom: 2px solid var(--gold); padding-bottom: 0.5rem;">
+                        <i class="fas fa-gavel"></i> Detalles de Audiencia
+                    </h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Información General</h4>
+                            <p><strong>Tipo:</strong> ${audiencia.tipo}</p>
+                            <p><strong>Fecha y Hora:</strong> ${fechaFormateada} a las ${audiencia.hora}</p>
+                            <p><strong>Juzgado/Sala:</strong> ${audiencia.juzgado}${audiencia.sala ? ` (${audiencia.sala})` : ''}</p>
+                            <p><strong>Estado:</strong> ${audiencia.estado}</p>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Asociaciones</h4>
+                            <p><strong>Expediente:</strong> ${expediente ? expediente.numero : 'N/A'}</p>
+                            <p><strong>Cliente:</strong> ${expediente ? expediente.cliente : 'N/A'}</p>
+                            <p><strong>Área Legal:</strong> ${expediente ? expediente.tipo : 'N/A'}</p>
+                            <p><strong>Responsable:</strong> ${audiencia.responsable}</p>
+                        </div>
+                    </div>
+                    
+                    ${audiencia.asistentes ? `
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Asistentes</h4>
+                            <p>${audiencia.asistentes}</p>
+                        </div>
+                    ` : ''}
+                    
+                    ${audiencia.preparacion ? `
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Preparación Requerida</h4>
+                            <p>${audiencia.preparacion}</p>
+                        </div>
+                    ` : ''}
+                    
+                    ${audiencia.observaciones ? `
+                        <div style="margin-bottom: 2rem;">
+                            <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Observaciones y Resultados</h4>
+                            <p style="background-color: #f8f9ff; padding: 1rem; border-radius: 8px; border-left: 4px solid var(--accent);">
+                                ${audiencia.observaciones}
+                            </p>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="text-align: center; padding-top: 1.5rem; border-top: 1px solid #eee;">
+                        <button class="btn btn-primary" onclick="document.getElementById('audienciaModal').style.display='none'">
+                            <i class="fas fa-times"></i> Cerrar
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Crear modal temporal
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'block';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <h3><i class="fas fa-gavel"></i> Detalles de Audiencia</h3>
+                        <span class="close-modal" onclick="this.parentElement.parentElement.parentElement.style.display='none'">&times;</span>
+                    </div>
+                    ${contenido}
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Cerrar al hacer clic fuera
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+        
+        // Eliminar audiencia
+        function deleteAudiencia(id) {
+            if (currentUser.rol !== 'socia') {
+                alert('Solo la Socia Fundadora puede eliminar audiencias');
+                return;
+            }
+            
+            const audiencia = audiencias.find(a => a.id === id);
+            const expediente = expedientes.find(e => e.id === audiencia.expedienteId);
+            
+            if (confirm('¿Está seguro de eliminar esta audiencia?')) {
+                audiencias = audiencias.filter(a => a.id !== id);
+                saveAudiencias();
+                renderAudienciasTable();
+                updateDashboard();
+                
+                registrarActividad('audiencia', `Audiencia eliminada`, expediente?.numero || 'N/A');
+                
+                alert('Audiencia eliminada correctamente');
+            }
+        }
+        
+        // Renderizar calendario de audiencias
+        function renderAudienciasCalendar() {
+            const container = document.querySelector('#audienciasCalendar .calendar-container');
+            container.innerHTML = `
+                <div class="calendar-header">
+                    <h3>Vista de Calendario</h3>
+                    <p>Para ver el calendario completo, use la sección "Calendario" del menú principal</p>
+                </div>
+                <div style="text-align: center; padding: 3rem; background: white; border-radius: 12px;">
+                    <i class="fas fa-calendar-alt" style="font-size: 4rem; color: var(--accent); margin-bottom: 1.5rem;"></i>
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Calendario Judicial</h3>
+                    <p>Esta vista muestra las audiencias programadas en formato de calendario.</p>
+                    <p style="margin-top: 1.5rem;">
+                        <strong>Audiencias este mes:</strong> 
+                        ${audiencias.filter(a => {
+                            const fecha = luxon.DateTime.fromISO(a.fecha);
+                            const inicioMes = luxon.DateTime.now().startOf('month');
+                            const finMes = inicioMes.endOf('month');
+                            return fecha >= inicioMes && fecha <= finMes;
+                        }).length}
+                    </p>
+                </div>
+            `;
+        }
+        
+        // Renderizar calendario principal
+        function renderCalendar() {
+            const container = document.getElementById('mainCalendar');
+            container.innerHTML = '';
+            
+            // Actualizar título
+            document.getElementById('currentMonthYear').textContent = 
+                currentCalendarMonth.toLocaleString({ month: 'long', year: 'numeric' });
+            
+            // Crear estructura del calendario
+            const calendarHTML = `
+                <div class="calendar-header">
+                    <h3>Calendario de ${currentCalendarMonth.toLocaleString({ month: 'long', year: 'numeric' })}</h3>
+                    <p>Haga clic en una audiencia para ver detalles</p>
+                </div>
+                
+                <div class="calendar-grid">
+                    <div class="calendar-day-header">Dom</div>
+                    <div class="calendar-day-header">Lun</div>
+                    <div class="calendar-day-header">Mar</div>
+                    <div class="calendar-day-header">Mié</div>
+                    <div class="calendar-day-header">Jue</div>
+                    <div class="calendar-day-header">Vie</div>
+                    <div class="calendar-day-header">Sáb</div>
+                    
+                    ${generateCalendarDays()}
+                </div>
+            `;
+            
+            container.innerHTML = calendarHTML;
+            
+            // Agregar event listeners a las audiencias
+            document.querySelectorAll('.calendar-event').forEach(event => {
+                event.addEventListener('click', function() {
+                    const audienciaId = parseInt(this.getAttribute('data-id'));
+                    showAudienciaDetails(audienciaId);
+                });
+            });
+        }
+        
+        // Generar días del calendario
+        function generateCalendarDays() {
+            const firstDay = currentCalendarMonth.startOf('month');
+            const lastDay = currentCalendarMonth.endOf('month');
+            const startDay = firstDay.weekday % 7; // 0 = Domingo
+            
+            let html = '';
+            const today = luxon.DateTime.now();
+            
+            // Días del mes anterior
+            const prevMonth = currentCalendarMonth.minus({ months: 1 });
+            const daysInPrevMonth = prevMonth.daysInMonth;
+            
+            for (let i = 0; i < startDay; i++) {
+                const day = daysInPrevMonth - startDay + i + 1;
+                const date = prevMonth.set({ day: day });
+                html += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
+            // Días del mes actual
+            for (let day = 1; day <= lastDay.day; day++) {
+                const date = currentCalendarMonth.set({ day: day });
+                const dateStr = date.toISODate();
+                const isToday = date.hasSame(today, 'day');
+                
+                // Audiencias de este día
+                const dayAudiencias = audiencias.filter(a => a.fecha === dateStr);
+                
+                let dayHTML = `<div class="calendar-day ${isToday ? 'today' : ''}">`;
+                dayHTML += `<div class="calendar-day-number">${day}</div>`;
+                
+                dayAudiencias.forEach(aud => {
+                    const expediente = expedientes.find(e => e.id === aud.expedienteId);
+                    const expNumero = expediente ? expediente.numero : 'N/A';
+                    
+                    dayHTML += `
+                        <div class="calendar-event" data-id="${aud.id}" 
+                             style="background-color: ${getEventColor(aud.estado)};"
+                             title="${aud.tipo} - ${expNumero} - ${aud.hora}">
+                            ${aud.hora} - ${expNumero}
+                        </div>
+                    `;
+                });
+                
+                dayHTML += `</div>`;
+                html += dayHTML;
+            }
+            
+            // Días del próximo mes
+            const totalCells = 42; // 6 semanas
+            const cellsUsed = startDay + lastDay.day;
+            const cellsNeeded = totalCells - cellsUsed;
+            
+            const nextMonth = currentCalendarMonth.plus({ months: 1 });
+            
+            for (let day = 1; day <= cellsNeeded; day++) {
+                html += `<div class="calendar-day other-month">${day}</div>`;
+            }
+            
+            return html;
+        }
+        
+        // Obtener color para evento según estado
+        function getEventColor(estado) {
+            switch(estado) {
+                case 'Pendiente': return '#ff9800';
+                case 'Confirmada': return '#2196f3';
+                case 'Realizada': return '#4caf50';
+                case 'Cancelada': return '#f44336';
+                case 'Reagendada': return '#9c27b0';
+                default: return '#607d8b';
+            }
+        }
+        
+        // Filtrar agenda
+        function filterAgenda() {
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+            const tipoReporte = document.getElementById('tipoReporte').value;
+            
+            if (!fechaInicio || !fechaFin) {
+                alert('Seleccione un rango de fechas válido');
+                return;
+            }
+            
+            const inicio = luxon.DateTime.fromISO(fechaInicio);
+            const fin = luxon.DateTime.fromISO(fechaFin);
+            
+            let actividadesFiltradas = [];
+            
+            if (tipoReporte === 'audiencias' || tipoReporte === 'todo') {
+                const audienciasFiltradas = audiencias.filter(a => {
+                    const fecha = luxon.DateTime.fromISO(a.fecha);
+                    return fecha >= inicio && fecha <= fin;
+                });
+                
+                actividadesFiltradas = actividadesFiltradas.concat(
+                    audienciasFiltradas.map(a => ({
+                        tipo: 'audiencia',
+                        fecha: a.fecha,
+                        hora: a.hora,
+                        descripcion: `Audiencia: ${a.tipo}`,
+                        expediente: expedientes.find(e => e.id === a.expedienteId)?.numero || 'N/A',
+                        estado: a.estado
+                    }))
+                );
+            }
+            
+            if (tipoReporte === 'tareas' || tipoReporte === 'todo') {
+                const tareasFiltradas = tareas.filter(t => {
+                    const fecha = luxon.DateTime.fromISO(t.fecha);
+                    return fecha >= inicio && fecha <= fin;
+                });
+                
+                actividadesFiltradas = actividadesFiltradas.concat(
+                    tareasFiltradas.map(t => ({
+                        tipo: 'tarea',
+                        fecha: t.fecha,
+                        hora: '09:00',
+                        descripcion: t.descripcion,
+                        expediente: 'N/A',
+                        estado: t.estado
+                    }))
+                );
+            }
+            
+            // Ordenar por fecha
+            actividadesFiltradas.sort((a, b) => {
+                const fechaA = new Date(a.fecha + 'T' + a.hora);
+                const fechaB = new Date(b.fecha + 'T' + b.hora);
+                return fechaA - fechaB;
+            });
+            
+            // Renderizar tabla
+            const tbody = document.querySelector('#agendaTable tbody');
+            tbody.innerHTML = '';
+            
+            if (actividadesFiltradas.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-calendar-days"></i>
+                        <h4>No hay actividades</h4>
+                        <p>No se encontraron actividades en el rango de fechas seleccionado</p>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                return;
+            }
+            
+            actividadesFiltradas.forEach(act => {
+                const fechaFormateada = luxon.DateTime.fromISO(act.fecha).toLocaleString(luxon.DateTime.DATE_SHORT);
+                const icono = act.tipo === 'audiencia' ? '⚖️' : '📝';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${fechaFormateada}</td>
+                    <td>${act.hora}</td>
+                    <td>${icono} ${act.descripcion}</td>
+                    <td>${act.expediente}</td>
+                    <td>${act.tipo === 'audiencia' ? 'Audiencia programada' : 'Tarea pendiente'}</td>
+                    <td><span class="audience-status ${act.estado === 'Pendiente' ? 'status-pending' : 'status-completed'}">
+                        ${act.estado}
+                    </span></td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Exportar a PDF
+        function exportToPDF() {
+            const fechaInicio = document.getElementById('fechaInicio').value;
+            const fechaFin = document.getElementById('fechaFin').value;
+            const tipoReporte = document.getElementById('tipoReporte').value;
+            
+            if (!fechaInicio || !fechaFin) {
+                alert('Seleccione un rango de fechas válido');
+                return;
+            }
+            
+            const inicio = luxon.DateTime.fromISO(fechaInicio);
+            const fin = luxon.DateTime.fromISO(fechaFin);
+            
+            // Filtrar datos
+            let datos = [];
+            let titulo = '';
+            
+            if (tipoReporte === 'audiencias') {
+                datos = audiencias.filter(a => {
+                    const fecha = luxon.DateTime.fromISO(a.fecha);
+                    return fecha >= inicio && fecha <= fin;
+                });
+                titulo = 'Reporte de Audiencias';
+            } else if (tipoReporte === 'todo') {
+                // Combinar audiencias y tareas
+                const audienciasFiltradas = audiencias.filter(a => {
+                    const fecha = luxon.DateTime.fromISO(a.fecha);
+                    return fecha >= inicio && fecha <= fin;
+                });
+                
+                const tareasFiltradas = tareas.filter(t => {
+                    const fecha = luxon.DateTime.fromISO(t.fecha);
+                    return fecha >= inicio && fecha <= fin;
+                });
+                
+                datos = [...audienciasFiltradas, ...tareasFiltradas];
+                titulo = 'Reporte Completo de Actividades';
+            }
+            
+            if (datos.length === 0) {
+                alert('No hay datos para exportar en el rango seleccionado');
+                return;
+            }
+            
+            // Crear PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('portrait', 'mm', 'a4');
+            
+            // Encabezado
+            doc.setFontSize(20);
+            doc.setTextColor(26, 35, 126); // Color primario
+            doc.text('Dalcia Bello & Asociados', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(16);
+            doc.setTextColor(40, 53, 147); // Color secundario
+            doc.text(titulo, 105, 30, { align: 'center' });
+            
+            // Información del reporte
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Del ${inicio.toLocaleString(luxon.DateTime.DATE_SHORT)} al ${fin.toLocaleString(luxon.DateTime.DATE_SHORT)}`, 
+                    105, 40, { align: 'center' });
+            
+            doc.text(`Generado por: ${currentUser.nombre}`, 105, 46, { align: 'center' });
+            doc.text(`Fecha: ${luxon.DateTime.now().toLocaleString(luxon.DateTime.DATETIME_SHORT)}`, 
+                    105, 52, { align: 'center' });
+            
+            // Crear tabla
+            const tableData = datos.map(item => {
+                if (item.tipo) {
+                    // Es una audiencia
+                    const expediente = expedientes.find(e => e.id === item.expedienteId);
+                    return [
+                        luxon.DateTime.fromISO(item.fecha).toLocaleString(luxon.DateTime.DATE_SHORT),
+                        item.hora,
+                        item.tipo,
+                        expediente ? expediente.numero : 'N/A',
+                        item.juzgado,
+                        item.estado,
+                        item.responsable
+                    ];
+                } else {
+                    // Es una tarea
+                    return [
+                        luxon.DateTime.fromISO(item.fecha).toLocaleString(luxon.DateTime.DATE_SHORT),
+                        '09:00',
+                        'Tarea',
+                        'N/A',
+                        item.descripcion.substring(0, 30) + '...',
+                        item.estado,
+                        item.responsable
+                    ];
+                }
+            });
+            
+            // Encabezados de la tabla
+            const headers = [['Fecha', 'Hora', 'Tipo', 'Expediente', 'Descripción/Juzgado', 'Estado', 'Responsable']];
+            
+            // Generar tabla
+            doc.autoTable({
+                head: headers,
+                body: tableData,
+                startY: 60,
+                headStyles: { 
+                    fillColor: [26, 35, 126],
+                    textColor: 255,
+                    fontSize: 10
+                },
+                bodyStyles: { fontSize: 9 },
+                alternateRowStyles: { fillColor: [245, 245, 247] },
+                margin: { left: 10, right: 10 }
+            });
+            
+            // Pie de página
+            const pageCount = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setTextColor(128, 128, 128);
+                doc.text(
+                    `Página ${i} de ${pageCount} - Dalcia Bello & Asociados - Confidencial`,
+                    105,
+                    doc.internal.pageSize.height - 10,
+                    { align: 'center' }
+                );
+            }
+            
+            // Guardar PDF
+            const fileName = `Reporte_${tipoReporte}_${inicio.toFormat('yyyyMMdd')}_${fin.toFormat('yyyyMMdd')}.pdf`;
+            doc.save(fileName);
+            
+            // Registrar actividad
+            registrarActividad('reporte', `Reporte ${tipoReporte} exportado`, `${fechaInicio} al ${fechaFin}`);
+            
+            alert('Reporte exportado exitosamente');
+        }
+        
+        // Funciones para clientes (simplificadas)
+        function renderClientesTable() {
+            const tbody = document.querySelector('#clientesTable tbody');
+            tbody.innerHTML = '';
+            
+            if (clientes.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td colspan="6" class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h4>No hay clientes</h4>
+                        <p>No se encontraron clientes registrados</p>
+                    </td>
+                `;
+                tbody.appendChild(row);
+                return;
+            }
+            
+            clientes.forEach(cliente => {
+                const expedientesCliente = expedientes.filter(e => 
+                    cliente.expedientes && cliente.expedientes.includes(e.id)
+                );
+                const ultimoExpediente = expedientesCliente.sort((a, b) => 
+                    new Date(b.fechaInicio) - new Date(a.fechaInicio)
+                )[0];
+                
+                const ultimaActividad = ultimoExpediente ? 
+                    luxon.DateTime.fromISO(ultimoExpediente.fechaInicio).toLocaleString(luxon.DateTime.DATE_SHORT) : 
+                    'N/A';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <strong>${cliente.nombre}</strong><br>
+                        <small>${cliente.identificacion} • ${cliente.tipo}</small>
+                    </td>
+                    <td>
+                        ${cliente.telefono}<br>
+                        <small>${cliente.email || 'Sin email'}</small>
+                    </td>
+                    <td>${expedientesCliente.length} expediente(s)</td>
+                    <td>${ultimaActividad}</td>
+                    <td><span class="audience-status ${cliente.estado === 'Activo' ? 'status-completed' : 'status-cancelled'}">
+                        ${cliente.estado}
+                    </span></td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-sm view-cliente" data-id="${cliente.id}">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${currentUser.rol !== 'pasante' ? `
+                                <button class="btn btn-warning btn-sm edit-cliente" data-id="${cliente.id}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            // Agregar event listeners
+            document.querySelectorAll('.view-cliente').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    alert(`Detalles del cliente ${id} - Función en desarrollo`);
+                });
+            });
+            
+            document.querySelectorAll('.edit-cliente').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    openClienteModal(id);
+                });
+            });
+        }
+        
+        function openClienteModal(id = null) {
+            if (currentUser.rol === 'pasante') {
+                alert('No tiene permisos para gestionar clientes');
+                return;
+            }
+            
+            const modal = document.getElementById('clienteModal');
+            const title = document.getElementById('modalClienteTitle');
+            
+            if (id) {
+                const cliente = clientes.find(c => c.id === id);
+                if (cliente) {
+                    title.textContent = 'Editar Cliente';
+                    document.getElementById('clienteId').value = cliente.id;
+                    document.getElementById('clienteNombre').value = cliente.nombre;
+                    document.getElementById('clienteIdentificacion').value = cliente.identificacion;
+                    document.getElementById('clienteEmail').value = cliente.email || '';
+                    document.getElementById('clienteTelefono').value = cliente.telefono;
+                    document.getElementById('clienteDireccion').value = cliente.direccion || '';
+                    document.getElementById('clienteTipo').value = cliente.tipo;
+                    document.getElementById('clienteObservaciones').value = cliente.observaciones || '';
+                }
+            } else {
+                title.textContent = 'Nuevo Cliente';
+                document.getElementById('clienteForm').reset();
+                document.getElementById('clienteId').value = '';
+            }
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeClienteModal() {
+            document.getElementById('clienteModal').style.display = 'none';
+        }
+        
+        function saveCliente() {
+            const id = document.getElementById('clienteId').value;
+            const nombre = document.getElementById('clienteNombre').value;
+            const identificacion = document.getElementById('clienteIdentificacion').value;
+            const email = document.getElementById('clienteEmail').value;
+            const telefono = document.getElementById('clienteTelefono').value;
+            const direccion = document.getElementById('clienteDireccion').value;
+            const tipo = document.getElementById('clienteTipo').value;
+            const observaciones = document.getElementById('clienteObservaciones').value;
+            
+            if (id) {
+                // Actualizar cliente
+                const index = clientes.findIndex(c => c.id === parseInt(id));
+                if (index !== -1) {
+                    clientes[index] = {
+                        ...clientes[index],
+                        nombre,
+                        identificacion,
+                        email,
+                        telefono,
+                        direccion,
+                        tipo,
+                        observaciones
+                    };
+                    
+                    registrarActividad('cliente', `Cliente ${nombre} actualizado`, identificacion);
+                }
+            } else {
+                // Nuevo cliente
+                const newId = clientes.length > 0 ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
+                clientes.push({
+                    id: newId,
+                    nombre,
+                    identificacion,
+                    email,
+                    telefono,
+                    direccion,
+                    tipo,
+                    observaciones,
+                    estado: 'Activo',
+                    fechaRegistro: luxon.DateTime.now().toISODate(),
+                    expedientes: []
+                });
+                
+                registrarActividad('cliente', `Nuevo cliente ${nombre} registrado`, identificacion);
+            }
+            
+            saveClientes();
+            closeClienteModal();
+            renderClientesTable();
+            updateDashboard();
+            
+            alert('Cliente guardado correctamente');
+        }
+    </script>
+</body>
+</html>
